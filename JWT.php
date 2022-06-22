@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * Copyright Farasource (Abbas Ghasemi), 2022.
+ * https://farasource.com
+ * 
+ * https://github.com/farasource/jwt
+ */
+
 class JWT
 {
     private $type = 'JWT';
@@ -77,9 +84,6 @@ class JWT
         return $check;
     }
 
-    /**
-     * @param string|null $key
-     */
     public function setKey(?string $key, bool $decode = false): void
     {
         if (!empty($key) && strlen($key) >= 32)
@@ -170,5 +174,4 @@ class JWT
             ];
         }
     }
-
 }
