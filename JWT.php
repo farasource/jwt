@@ -3,25 +3,25 @@
 /*
  * Copyright Farasource (Abbas Ghasemi), 2022.
  * https://farasource.com
- * 
+ *
  * https://github.com/farasource/jwt
  */
 
 class JWT
 {
-    private $type = 'JWT';
-    private $algorithms = [
+    private string $type = 'JWT';
+    private array $algorithms = [
         'HS256' => 'SHA256',
         'HS384' => 'SHA384',
         'HS512' => 'SHA512'
     ];
-    private $def_alg;
-    private $key = null;
+    private string $def_alg;
+    private ?string $key = null;
 
-    private $header_payload;
-    private $header = null;
-    private $payload = null;
-    private $signature;
+    private string $header_payload;
+    private ?array $header = null;
+    private ?array $payload = null;
+    private string $signature;
 
     /**
      * JWT constructor.
@@ -38,11 +38,11 @@ class JWT
         }
     }
 
-    private static $jwt;
+    private static JWT $jwt;
 
-    public static function newJWT(?string $key = null, string $def_alg = 'HS256')
+    public static function newJWT(?string $key = null, string $def_alg = 'HS256'): JWT
     {
-        if (self::$jwt == null) {
+        if (!isset(self::$jwt)) {
             self::$jwt = new JWT($key, $def_alg);
         }
         return self::$jwt;
@@ -145,11 +145,7 @@ class JWT
 
     private function sign($plain): string
     {
-        $str = hash_hmac($this->algorithms[$this->header['alg']], $plain, $this->key, true);
-        if ($str === false) {
-            return '';
-        }
-        return $str;
+        return hash_hmac($this->algorithms[$this->header['alg']], $plain, $this->key, true);
     }
 
     private function reset()
